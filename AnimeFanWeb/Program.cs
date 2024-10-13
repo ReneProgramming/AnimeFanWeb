@@ -68,5 +68,6 @@ IServiceScope serviceProvider = app.Services.GetRequiredService<IServiceProvider
 await IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Moderator, IdentityHelper.Fan);
 
 // Create default moderator
+await IdentityHelper.CreateDefaultUser(serviceProvider.ServiceProvider, IdentityHelper.Moderator);
 
 app.Run();
