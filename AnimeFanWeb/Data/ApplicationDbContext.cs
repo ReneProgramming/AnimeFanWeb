@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AnimeFanWeb.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnimeFanWeb.Data
@@ -9,5 +10,9 @@ namespace AnimeFanWeb.Data
             : base(options)
         {
         }
+
+        public DbSet<Moderator> Moderators { get; set; }
+
+        public DbSet<Event> Events { get; set; }
     }
 }
