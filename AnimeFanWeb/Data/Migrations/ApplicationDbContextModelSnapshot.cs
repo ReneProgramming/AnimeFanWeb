@@ -45,7 +45,7 @@ namespace AnimeFanWeb.Data.Migrations
 
                     b.HasIndex("ModeratorId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("AnimeFanWeb.Models.Moderator", b =>
@@ -62,7 +62,7 @@ namespace AnimeFanWeb.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Moderators");
+                    b.ToTable("Moderators", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

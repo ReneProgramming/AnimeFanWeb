@@ -4,7 +4,6 @@ namespace AnimeFanWeb.Models
 {
     public class Event
     {
-        public static List<Moderator> AllAvailableModerators { get; internal set; }
         [Key]
         public int Id { get; set; }
 
@@ -21,8 +20,8 @@ namespace AnimeFanWeb.Models
 
         public string Description { get; set; }
 
-        public List<Moderator> AllAvailableModerators { get; set; }
+        public List<Moderator>? AllAvailableModerators { get; set; }
 
-        public Moderator ChosenModerator { get; set; }
+        public int ChosenModerator { get; set; }
     }
 }

@@ -60,11 +60,24 @@ namespace AnimeFanWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                Event newEvent = new()
+                {
+                    Description = @event.Description,
+                    Title = @event.Title,
+                    Moderator = new Moderator()
+                    {
+                        Id = @event.ChosenModerator
+                    }
+                };
+
+                // Tell EF that we have not modified the existing instructor 
+                _context.Entry(newEvent.Moderator).State = EntityState.Unchanged;
+
+                _context.Add(newEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            Event.AllAvailableModerators = _context.Moderators.OrderBy(m =>m.FullName).ToList();
+            @event.AllAvailableModerators = _context.Moderators.OrderBy(m =>m.FullName).ToList();
             return View(@event);
         }
 
