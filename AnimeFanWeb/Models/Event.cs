@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AnimeFanWeb.Models
 {
@@ -23,5 +24,16 @@ namespace AnimeFanWeb.Models
         public List<Moderator>? AllAvailableModerators { get; set; }
 
         public int ChosenModerator { get; set; }
+    }
+
+    public class EventIndexViewModel
+    { 
+        public int EventId { get; set; }
+
+        [Display(Name = "Event Name")]
+        public string EventTitle { get; set; }
+
+        [Display(Name = "Moderator")]
+        public string ModeratorName { get; set; }
     }
 }

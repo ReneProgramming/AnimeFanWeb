@@ -22,7 +22,18 @@ namespace AnimeFanWeb.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            List<EventIndexViewModel> eventData = await (from m in _context.Events
+                             join moderator in _context.Moderators
+                                on m.Moderator.Id equals moderator.Id
+                             orderby m.Title
+                             select new EventIndexViewModel
+                             {
+                                 EventId = m.Id,
+                                 EventTitle = m.Title,
+                                 ModeratorName = moderator.FullName
+                             }).ToListAsync();
+
+            return View(eventData);
         }
 
         // GET: Events/Details/5
