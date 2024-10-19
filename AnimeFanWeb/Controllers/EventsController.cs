@@ -64,6 +64,7 @@ namespace AnimeFanWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            Event.AllAvailableModerators = _context.Moderators.OrderBy(m =>m.FullName).ToList();
             return View(@event);
         }
 

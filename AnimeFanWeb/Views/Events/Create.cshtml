@@ -2,6 +2,18 @@
 
 @{
     ViewData["Title"] = "Create";
+
+    List<SelectListItem> moderatorsSelectList = new();
+    foreach(Moderator moderator in Model.AllAvailableModerators)
+    {
+        moderatorsSelectList.Add(
+            new SelectListItem()
+            {
+                Value = moderator.Id.ToString(),
+                Text = moderator.FullName
+            }
+        );
+    }
 }
 
 <h1>Create</h1>
@@ -23,11 +35,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <select asp-for="ChosenModerator">
-                    @foreach(Moderator moderator in Model.AllAvailableModerators)
-                    {
-                        <option value="@moderator.Id">@moderator.FullName</option>
-                    }
+                <select asp-for="ChosenModerator" asp-items="moderatorsSelectList">                    
                 </select>
             </div>
             <div class="form-group">
