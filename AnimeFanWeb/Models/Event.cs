@@ -12,6 +12,8 @@ namespace AnimeFanWeb.Models
 
         public string Description { get; set; }
 
+        public int? ModeratorId { get; set; }
+
         public Moderator Moderator { get; set; }
     }
 

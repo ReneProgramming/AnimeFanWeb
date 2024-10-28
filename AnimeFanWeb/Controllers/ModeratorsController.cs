@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AnimeFanWeb.Data;
 using AnimeFanWeb.Models;
+using System.Data.Common;
 
 namespace AnimeFanWeb.Controllers
 {
@@ -140,6 +141,16 @@ namespace AnimeFanWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var moderator = await _context.Moderators.FindAsync(id);
+
+            // Change all related events to a null moderator
+            using DbConnection con = _context.Database.GetDbConnection();
+            await con.OpenAsync();
+            using DbCommand query = con.CreateCommand();
+            query.CommandText = "UPDATE Events SET ModeratorId = null WHERE ModeratorId = " + moderator.Id;
+            int rowsAffected = await query.ExecuteNonQueryAsync();
+            TempData["Message"] = $"{moderator.FullName} was removed from {rowsAffected} events";
+
+            // Remove moderator
             if (moderator != null)
             {
                 _context.Moderators.Remove(moderator);
