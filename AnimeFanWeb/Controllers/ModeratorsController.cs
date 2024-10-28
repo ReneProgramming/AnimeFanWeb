@@ -12,18 +12,18 @@ using System.Data.Common;
 namespace AnimeFanWeb.Controllers
 {
     public class ModeratorsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+    {      
+        private readonly IModeratorRepository _moderatorRepo;
 
-        public ModeratorsController(ApplicationDbContext context)
+        public ModeratorsController(IModeratorRepository moderatorRepo)
         {
-            _context = context;
+            _moderatorRepo = moderatorRepo;
         }
 
         // GET: Moderators
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Moderators.ToListAsync());
+            return View(await _moderatorRepo.GetAllModerators());
         }
 
         // GET: Moderators/Details/5
@@ -34,8 +34,7 @@ namespace AnimeFanWeb.Controllers
                 return NotFound();
             }
 
-            var moderator = await _context.Moderators
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var moderator = await _moderatorRepo.GetModerator(id.Value);
             if (moderator == null)
             {
                 return NotFound();
@@ -59,8 +58,7 @@ namespace AnimeFanWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(moderator);
-                await _context.SaveChangesAsync();
+                await _moderatorRepo.SaveModerator(moderator);
                 return RedirectToAction(nameof(Index));
             }
             return View(moderator);
@@ -74,7 +72,7 @@ namespace AnimeFanWeb.Controllers
                 return NotFound();
             }
 
-            var moderator = await _context.Moderators.FindAsync(id);
+            var moderator = await _moderatorRepo.GetModerator(id.Value);
             if (moderator == null)
             {
                 return NotFound();
@@ -98,12 +96,11 @@ namespace AnimeFanWeb.Controllers
             {
                 try
                 {
-                    _context.Update(moderator);
-                    await _context.SaveChangesAsync();
+                    await _moderatorRepo.UpdateModerator(moderator);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModeratorExists(moderator.Id))
+                    if (!await ModeratorExists(moderator.Id))
                     {
                         return NotFound();
                     }
@@ -125,8 +122,7 @@ namespace AnimeFanWeb.Controllers
                 return NotFound();
             }
 
-            var moderator = await _context.Moderators
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var moderator = await _moderatorRepo.GetModerator(id.Value);
             if (moderator == null)
             {
                 return NotFound();
@@ -140,29 +136,19 @@ namespace AnimeFanWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var moderator = await _context.Moderators.FindAsync(id);
-
-            // Change all related events to a null moderator
-            using DbConnection con = _context.Database.GetDbConnection();
-            await con.OpenAsync();
-            using DbCommand query = con.CreateCommand();
-            query.CommandText = "UPDATE Events SET ModeratorId = null WHERE ModeratorId = " + moderator.Id;
-            int rowsAffected = await query.ExecuteNonQueryAsync();
-            TempData["Message"] = $"{moderator.FullName} was removed from {rowsAffected} events";
+            var moderator = await _moderatorRepo.GetModerator(id);
+           
+            TempData["Message"] = $"{moderator.FullName} was removed from any related events";
 
             // Remove moderator
-            if (moderator != null)
-            {
-                _context.Moderators.Remove(moderator);
-            }
-
-            await _context.SaveChangesAsync();
+            
+            await _moderatorRepo.DeleteModerator(moderator.Id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModeratorExists(int id)
+        private async Task<bool> ModeratorExists(int id)
         {
-            return _context.Moderators.Any(e => e.Id == id);
+            return await _moderatorRepo.GetModerator(id) != null;
         }
     }
 }
