@@ -15,6 +15,8 @@ namespace AnimeFanWeb.Models
         public int? ModeratorId { get; set; }
 
         public Moderator Moderator { get; set; }
+
+        public DateTime EventDate { get; set; }
     }
 
     public class EventCreateViewModel
@@ -26,6 +28,8 @@ namespace AnimeFanWeb.Models
         public List<Moderator>? AllAvailableModerators { get; set; }
 
         public int ChosenModerator { get; set; }
+
+        public DateTime? EventDate { get; set; }
     }
 
     public class EventIndexViewModel
@@ -37,5 +41,8 @@ namespace AnimeFanWeb.Models
 
         [Display(Name = "Moderator")]
         public string ModeratorName { get; set; }
+
+        [Display(Name ="Event Date")]
+        public string EventDate { get; set; }
     }
 }
