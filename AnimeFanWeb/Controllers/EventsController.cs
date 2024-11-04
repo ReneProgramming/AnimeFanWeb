@@ -30,7 +30,8 @@ namespace AnimeFanWeb.Controllers
                              {
                                  EventId = m.Id,
                                  EventTitle = m.Title,
-                                 ModeratorName = moderator.FullName
+                                 ModeratorName = moderator.FullName,
+                                 EventDate = m.EventDate.ToString("MM-dd-yyyy")
                              }).ToListAsync();
 
             return View(eventData);
@@ -78,7 +79,8 @@ namespace AnimeFanWeb.Controllers
                     Moderator = new Moderator()
                     {
                         Id = @event.ChosenModerator
-                    }
+                    },
+                    EventDate = @event.EventDate ?? DateTime.Now
                 };
 
                 // Tell EF that we have not modified the existing instructor 
