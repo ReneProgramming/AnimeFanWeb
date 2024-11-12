@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnimeFanWeb.Models
@@ -32,6 +33,27 @@ namespace AnimeFanWeb.Models
         public DateTime? EventDate { get; set; }
     }
 
+    public class EventEditViewModel
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "Event date is required")]
+        [Display(Name = "Event Date")]
+        public DateTime EventDate { get; set; }
+
+        [Display(Name = "Moderator")]
+        public int? ModeratorId { get; set; }
+
+        public List<SelectListItem>? AllModerators { get; set; }
+    }
+
+
     public class EventIndexViewModel
     { 
         public int EventId { get; set; }
@@ -43,6 +65,7 @@ namespace AnimeFanWeb.Models
         public string ModeratorName { get; set; }
 
         [Display(Name ="Event Date")]
-        public string EventDate { get; set; }
+        public DateTime EventDate { get; set; }
     }
 }
+

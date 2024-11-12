@@ -33,7 +33,7 @@
                 @Html.DisplayFor(modelItem => item.ModeratorName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EventDate)
+                @item.EventDate.ToString("yyyy-MM-dd")
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
