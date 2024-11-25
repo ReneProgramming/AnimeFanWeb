@@ -14,5 +14,7 @@ namespace AnimeFanWeb.Data
         public DbSet<Moderator> Moderators { get; set; }
 
         public DbSet<Event> Events { get; set; }
+
+        public DbSet<AnimeList> AnimeList { get; set; }
     }
 }
