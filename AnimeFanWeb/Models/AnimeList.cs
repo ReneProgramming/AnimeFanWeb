@@ -32,14 +32,14 @@ namespace AnimeFanWeb.Models
 
         public DateOnly StartDate { get; set; }
 
-        public DateOnly? EndDate { get; set }
-
+        public DateOnly? EndDate { get; set; }
     }
 
     public class AnimeListEditViewModel
     { 
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
         public string Type { get; set; }
