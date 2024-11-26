@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/AnimeFanWeb/Properties/ServiceDependencies/AnimeFanWeb20241125225731 - Web Deploy/profile.arm.json
