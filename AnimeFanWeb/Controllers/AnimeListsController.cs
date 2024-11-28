@@ -46,7 +46,8 @@ namespace AnimeFanWeb.Controllers
         // GET: AnimeLists/Create
         public IActionResult Create()
         {
-            return View();
+            AnimeListCreateViewModel viewModel = new();
+            return View(viewModel);
         }
 
         // POST: AnimeLists/Create
