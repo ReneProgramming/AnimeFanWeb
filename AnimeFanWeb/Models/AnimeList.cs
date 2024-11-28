@@ -15,6 +15,8 @@ namespace AnimeFanWeb.Models
 
         public string Genre { get; set; }
 
+        public string Description { get; set; }
+
         public DateOnly StartDate { get; set; }
 
         public DateOnly? EndDate { get; set; }
@@ -55,21 +57,21 @@ namespace AnimeFanWeb.Models
 
     public class AnimeListIndexViewModel
     {
-        public int Id { get; set; }
+        public int AnimeListId { get; set; }
 
         [Display(Name = "Anime Title")]
-        public string Title { get; set; }
+        public string AnimeTitle { get; set; }
 
         [Display(Name ="Show/Movie/OVA")]
-        public string Type { get; set; }
+        public string AnimeType { get; set; }
 
-        public string Genre { get; set; }
+        public string AnimeGenre { get; set; }
 
         [Display(Name ="Date Aired")]
-        public DateOnly StartDate { get; set; }
+        public DateOnly AnimeStartDate { get; set; }
 
         [Display(Name ="Date Ended")]
-        public DateOnly? EndDate { get; set; }
+        public DateOnly? AnimeEndDate { get; set; }
     }
 
 }
