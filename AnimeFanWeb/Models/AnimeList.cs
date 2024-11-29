@@ -62,9 +62,10 @@ namespace AnimeFanWeb.Models
         [Display(Name = "Anime Title")]
         public string AnimeTitle { get; set; }
 
-        [Display(Name ="Show/Movie/OVA")]
+        [Display(Name ="TV/Movie/OVA")]
         public string AnimeType { get; set; }
 
+        [Display(Name = "Genre")]
         public string AnimeGenre { get; set; }
 
         [Display(Name ="Date Aired")]
