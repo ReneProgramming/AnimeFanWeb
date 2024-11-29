@@ -22,7 +22,19 @@ namespace AnimeFanWeb.Controllers
         // GET: AnimeLists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AnimeList.ToListAsync());
+            List<AnimeListIndexViewModel> listData = await (from L in _context.AnimeList
+                                                            orderby L.Title
+                                                            select new AnimeListIndexViewModel
+                                                            {
+                                                                AnimeListId = L.Id,
+                                                                AnimeTitle = L.Title,
+                                                                AnimeType = L.Type,
+                                                                AnimeGenre = L.Genre,
+                                                                AnimeStartDate = L.StartDate,
+                                                                AnimeEndDate = L.EndDate,
+                                                            }).ToListAsync();
+                                                               
+            return View(listData);                                               
         }
 
         // GET: AnimeLists/Details/5
@@ -55,15 +67,24 @@ namespace AnimeFanWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Type,Genre,StartDate,EndDate")] AnimeList animeList)
+        public async Task<IActionResult> Create(AnimeListCreateViewModel @list)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(animeList);
+                AnimeList newAnime = new()
+                {
+                    Title = @list.Title,
+                    Type = @list.Type,
+                    Genre = @list.Genre,
+                    Description = @list.Description,
+                    StartDate = @list.StartDate,
+                    EndDate = @list.EndDate,
+                };
+                _context.Add(newAnime);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(animeList);
+            return View(@list);
         }
 
         // GET: AnimeLists/Edit/5
