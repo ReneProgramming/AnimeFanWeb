@@ -31,7 +31,8 @@ namespace AnimeFanWeb.Controllers
                                                              EventId = m.Id,
                                                              EventTitle = m.Title,
                                                              ModeratorName = moderator.FullName,
-                                                             EventDate = m.EventDate
+                                                             EventDate = m.EventDate,
+                                                             EventLocation = m.EventLocation,
                                                          }).ToListAsync();
 
             return View(eventData);
@@ -76,6 +77,7 @@ namespace AnimeFanWeb.Controllers
                 {
                     Description = @event.Description,
                     Title = @event.Title,
+                    EventLocation = @event.EventLocation,
                     Moderator = new Moderator()
                     {
                         Id = @event.ChosenModerator
@@ -117,6 +119,7 @@ namespace AnimeFanWeb.Controllers
                 Title = @event.Title,
                 Description = @event.Description,
                 EventDate = @event.EventDate,
+                EventLocation = @event.EventLocation,
                 ModeratorId = @event.ModeratorId, 
                 AllModerators = _context.Moderators
                     .OrderBy(m => m.FullName)
@@ -135,69 +138,69 @@ namespace AnimeFanWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,EventDate,ModeratorId")] EventEditViewModel @event)
+        public async Task<IActionResult> Edit(int id, EventEditViewModel model)
         {
-            if (id != @event.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
             if (!ModelState.IsValid)
             {
-                foreach (var modelStateKey in ModelState.Keys)
-                {
-                    var errors = ModelState[modelStateKey].Errors;
-                    foreach (var error in errors)
+                // Repopulate the list of moderators for the dropdown if the model is invalid
+                model.AllModerators = _context.Moderators
+                    .OrderBy(m => m.FullName)
+                    .Select(m => new SelectListItem
                     {
-                        Console.WriteLine($"Error in {modelStateKey}: {error.ErrorMessage}");
-                    }
-                }
-                return View(@event); 
+                        Value = m.Id.ToString(),
+                        Text = m.FullName
+                    }).ToList();
+
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                // Find the existing event from the database
+                var existingEvent = await _context.Events
+                    .Include(e => e.Moderator) // Include related data
+                    .FirstOrDefaultAsync(e => e.Id == id);
+
+                if (existingEvent == null)
                 {
-                    // Find the existing event
-                    var existingEvent = await _context.Events
-                        .Include(e => e.Moderator)  
-                        .FirstOrDefaultAsync(e => e.Id == id);
-
-                    if (existingEvent == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Map the values 
-                    existingEvent.Title = @event.Title;
-                    existingEvent.Description = @event.Description;
-                    existingEvent.EventDate = @event.EventDate;
-
-                    // If ModeratorId is selected, update the Moderator
-                    if (@event.ModeratorId.HasValue)
-                    {
-                        existingEvent.ModeratorId = @event.ModeratorId.Value;
-                    }
-
-                    // Update the event in the database
-                    _context.Update(existingEvent);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                // Map the view model properties to the database model
+                existingEvent.Title = model.Title;
+                existingEvent.Description = model.Description;
+                existingEvent.EventDate = model.EventDate;
+                existingEvent.EventLocation = model.EventLocation;
+
+                // Update ModeratorId only if a value is provided
+                if (model.ModeratorId.HasValue)
                 {
-                    if (!EventExists(@event.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    existingEvent.ModeratorId = model.ModeratorId.Value;
                 }
+                else
+                {
+                    existingEvent.ModeratorId = null;
+                }
+
+                // Save changes to the database
+                _context.Update(existingEvent);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EventExists(model.Id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
         }
 
         // GET: Events/Delete/5

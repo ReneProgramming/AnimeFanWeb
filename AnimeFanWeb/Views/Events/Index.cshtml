@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.EventDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventLocation)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -35,6 +38,9 @@
             <td>
                 @item.EventDate.ToString("yyyy-MM-dd")
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventLocation)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |

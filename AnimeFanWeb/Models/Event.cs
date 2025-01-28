@@ -18,6 +18,8 @@ namespace AnimeFanWeb.Models
         public Moderator Moderator { get; set; }
 
         public DateTime EventDate { get; set; }
+
+        public string EventLocation { get; set; }
     }
 
     public class EventCreateViewModel
@@ -31,6 +33,8 @@ namespace AnimeFanWeb.Models
         public int ChosenModerator { get; set; }
 
         public DateTime? EventDate { get; set; }
+
+        public string EventLocation { get; set; }
     }
 
     public class EventEditViewModel
@@ -51,6 +55,8 @@ namespace AnimeFanWeb.Models
         public int? ModeratorId { get; set; }
 
         public List<SelectListItem>? AllModerators { get; set; }
+
+        public string EventLocation { get; set; }
     }
 
 
@@ -66,6 +72,9 @@ namespace AnimeFanWeb.Models
 
         [Display(Name ="Event Date")]
         public DateTime EventDate { get; set; }
+
+        [Display(Name = "Event Location")]
+        public string EventLocation { get; set; }
     }
 }
 
