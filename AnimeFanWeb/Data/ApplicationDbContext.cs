@@ -16,5 +16,9 @@ namespace AnimeFanWeb.Data
         public DbSet<Event> Events { get; set; }
 
         public DbSet<AnimeList> AnimeList { get; set; }
+
+        public DbSet<UserAnime> UserAnime { get; set; }
+
+
     }
 }
