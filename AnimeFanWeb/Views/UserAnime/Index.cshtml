@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AnimeFanWeb.Models.UserAnime>
+@{
+    ViewData["Title"] = "My Watchlist";
+}
+
+<h2>My Watchlist</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var anime in Model)
+        {
+            <tr>
+                <td>@anime.Anime.Title</td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="id" value="@anime.Id" />
+                        <select name="status" onchange="this.form.submit()">
+                            @foreach (var status in Enum.GetValues(typeof(AnimeFanWeb.Models.WatchStatus)))
+                            {
+                                <option value="@status" selected="@(anime.Status == (AnimeFanWeb.Models.WatchStatus)status)">
+                                    @status
+                                </option>
+                            }
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="RemoveFromWatchlist" method="post">
+                        <input type="hidden" name="id" value="@anime.Id" />
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

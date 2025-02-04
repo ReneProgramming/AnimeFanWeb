@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.AnimeEndDate)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +52,15 @@
                 <a asp-action="Edit" asp-route-id="@item.AnimeListId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.AnimeListId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.AnimeListId">Delete</a>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="UserAnime" asp-action="AddToWatchlist" method="post" style="display:inline;">
+                            <input type="hidden" name="animeId" value="@item.AnimeListId" />
+                            <button>Add to Watchlist</button>
+                        </form>
+                    }
+
             </td>
         </tr>
 }
