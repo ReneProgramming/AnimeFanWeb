@@ -33,7 +33,7 @@ namespace AnimeFanWeb.Controllers
 
         // Add an anime to the watchlist
         [HttpPost]
-        public async Task<IActionResult> AddToWatchlist(int animeId)
+        public async Task<IActionResult> AddToWatchlist(int animeId, WatchStatus status)
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -46,14 +46,14 @@ namespace AnimeFanWeb.Controllers
                 {
                     UserId = user.Id,
                     AnimeListId = animeId,
-                    Status = WatchStatus.ToWatch // Default status
+                    Status = status // Use the provided status
                 };
 
                 _context.UserAnime.Add(userAnime);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
 
         // Update the status of an anime in the watchlist

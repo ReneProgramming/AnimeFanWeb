@@ -27,7 +27,7 @@ namespace AnimeFanWeb.Models
 
     public enum WatchStatus
     {
-        ToWatch,
+        PlanToWatch,
         Watching,
         Done
     }
