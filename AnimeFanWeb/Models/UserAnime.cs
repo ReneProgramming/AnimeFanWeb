@@ -21,6 +21,10 @@ namespace AnimeFanWeb.Models
         [ForeignKey("AnimeListId")]
         public AnimeList Anime { get; set; }
 
+        public int? CurrentSeason { get; set; }
+
+        public int? CurrentEpisode { get; set; }
+
         [Required]
         public WatchStatus Status { get; set; }
     }

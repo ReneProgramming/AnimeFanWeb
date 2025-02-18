@@ -10,6 +10,7 @@
         <tr>
             <th>Title</th>
             <th>Status</th>
+            <th>Current Season/Episode</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -30,6 +31,23 @@
                             }
                         </select>
                     </form>
+                </td>
+                <td>
+                    <form asp-action="UpdateSeasonAndEpisode" method="post">
+                        <input type="hidden" name="id" value="@anime.Id" />
+                        <div class="row">
+                            <div class="col-md-5 mb-2">
+                                <label for="season">Season</label>
+                                <input type="number" name="season" value="@anime.CurrentSeason" class="form-control" />
+                            </div>
+                            <div class="col-md-5 mb-2">
+                                <label for="episode">Episode</label>
+                                <input type="number" name="episode" value="@anime.CurrentEpisode" class="form-control" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Update Season & Episode</button>
+                    </form>
+
                 </td>
                 <td>
                     <form asp-action="RemoveFromWatchlist" method="post">

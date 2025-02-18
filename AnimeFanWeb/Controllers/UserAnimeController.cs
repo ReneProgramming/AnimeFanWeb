@@ -70,6 +70,28 @@ namespace AnimeFanWeb.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateSeasonAndEpisode(int id, int? season, int? episode)
+        {
+            var userAnime = await _context.UserAnime
+                .FirstOrDefaultAsync(ua => ua.Id == id);
+
+            if (userAnime == null)
+            {
+                return NotFound();
+            }
+
+            // Update both season and episode
+            userAnime.CurrentSeason = season;
+            userAnime.CurrentEpisode = episode;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+
+
         // Remove an anime from the watchlist
         [HttpPost]
         public async Task<IActionResult> RemoveFromWatchlist(int id)
