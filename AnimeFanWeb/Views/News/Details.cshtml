@@ -1,0 +1,21 @@
+﻿@model AnimeFanWeb.Models.News
+
+<div class="container">
+    <h1>@Model.Title</h1>
+    <p>@Model.Content</p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.RelatedLinks))
+    {
+        <p>
+            <strong>Related Links:</strong>
+            <a href="@Model.RelatedLinks" target="_blank" rel="noopener noreferrer">
+                @Model.RelatedLinks
+            </a>
+        </p>
+    }
+
+    <div>
+        <a href="@Url.Action("Edit", "News", new { id = Model.Id })" class="btn btn-warning">Edit</a>
+        <a href="@Url.Action("Delete", "News", new { id = Model.Id })" class="btn btn-danger">Delete</a>
+    </div>
+</div>
