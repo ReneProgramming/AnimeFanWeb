@@ -19,6 +19,6 @@ namespace AnimeFanWeb.Data
 
         public DbSet<UserAnime> UserAnime { get; set; }
 
-
+        public DbSet<News> News { get; set; }
     }
 }

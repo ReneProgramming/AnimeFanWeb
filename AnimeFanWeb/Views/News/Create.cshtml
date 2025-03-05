@@ -1,0 +1,38 @@
+﻿@model AnimeFanWeb.Models.NewsCreateViewModel
+
+<h2>Create News Article</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" class="form-control" asp-for="Title" />
+    </div>
+
+    <div class="form-group">
+        <label for="Summary">Summary</label>
+        <textarea class="form-control" asp-for="Summary"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea class="form-control" asp-for="Content"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="RelatedLinks">Related Links</label>
+        <input type="text" class="form-control" asp-for="RelatedLinks" />
+    </div>
+
+    <div class="form-group">
+        <label for="DatePublished">Date Published</label>
+        <input type="datetime-local" class="form-control" asp-for="DatePublished" />
+    </div>
+
+    <div class="form-group">
+        <label for="ImageFile">Upload Image</label>
+        <input type="file" class="form-control" asp-for="ImageFile" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

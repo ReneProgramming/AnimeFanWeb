@@ -1,0 +1,31 @@
+﻿@model IEnumerable<AnimeFanWeb.Models.NewsIndexViewModel>
+
+@{
+    ViewData["Title"] = "News";
+}
+
+<div class="container">
+    <div class="mb-4">
+        <a href="@Url.Action("Create", "News")" class="btn btn-success">Add News Article</a>
+    </div>
+    <div class="row">
+        @foreach (var news in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="/images/news/@news.ImageFileName" class="card-img-top" alt="News Image">
+
+                    <div class="card-body">
+                        <h5 class="card-title">@news.Title</h5>
+                        <p class="card-text">@news.Summary</p>
+                        <a href="@Url.Action("Details", "News", new { id = news.Id })" class="btn btn-primary">Read more</a>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        Published on @news.DatePublished.ToString("MMM dd, yyyy")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
