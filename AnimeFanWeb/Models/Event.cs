@@ -20,6 +20,9 @@ namespace AnimeFanWeb.Models
         public DateTime EventDate { get; set; }
 
         public string EventLocation { get; set; }
+
+        [Display(Name = "YouTube Video URL")]
+        public string? VideoUrl { get; set; }
     }
 
     public class EventCreateViewModel
@@ -35,6 +38,9 @@ namespace AnimeFanWeb.Models
         public DateTime? EventDate { get; set; }
 
         public string EventLocation { get; set; }
+
+        [Display(Name = "YouTube Video URL")]
+        public string? VideoUrl { get; set; }
     }
 
     public class EventEditViewModel
@@ -57,6 +63,9 @@ namespace AnimeFanWeb.Models
         public List<SelectListItem>? AllModerators { get; set; }
 
         public string EventLocation { get; set; }
+
+        [Display(Name = "YouTube Video URL")]
+        public string? VideoUrl { get; set; }
     }
 
 

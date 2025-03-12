@@ -82,10 +82,10 @@ namespace AnimeFanWeb.Controllers
                     {
                         Id = @event.ChosenModerator
                     },
-                    EventDate = @event.EventDate ?? DateTime.Now
+                    EventDate = @event.EventDate ?? DateTime.Now,
+                    VideoUrl = @event.VideoUrl
                 };
 
-                // Tell EF that we have not modified the existing instructor 
                 _context.Entry(newEvent.Moderator).State = EntityState.Unchanged;
 
                 _context.Add(newEvent);
@@ -120,6 +120,7 @@ namespace AnimeFanWeb.Controllers
                 Description = @event.Description,
                 EventDate = @event.EventDate,
                 EventLocation = @event.EventLocation,
+                VideoUrl = @event.VideoUrl,
                 ModeratorId = @event.ModeratorId, 
                 AllModerators = _context.Moderators
                     .OrderBy(m => m.FullName)
@@ -163,7 +164,7 @@ namespace AnimeFanWeb.Controllers
             {
                 // Find the existing event from the database
                 var existingEvent = await _context.Events
-                    .Include(e => e.Moderator) // Include related data
+                    .Include(e => e.Moderator) 
                     .FirstOrDefaultAsync(e => e.Id == id);
 
                 if (existingEvent == null)
@@ -176,6 +177,7 @@ namespace AnimeFanWeb.Controllers
                 existingEvent.Description = model.Description;
                 existingEvent.EventDate = model.EventDate;
                 existingEvent.EventLocation = model.EventLocation;
+                existingEvent.VideoUrl = model.VideoUrl;
 
                 // Update ModeratorId only if a value is provided
                 if (model.ModeratorId.HasValue)
